@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090b12">
+  <title>67 — Futuristic Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+    :root{--bg:#090b12;--panel:#101521;--panel2:#131a29;--line:rgba(157,178,220,.12);--text:#edf2ff;--muted:#8490a8;--cyan:#65e7f2;--violet:#a78bfa;--green:#7ce6b1;--orange:#ffbd75}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(ellipse at 80% -10%,rgba(79,91,180,.19),transparent 36%),radial-gradient(ellipse at 0% 60%,rgba(27,153,173,.08),transparent 34%),var(--bg);color:var(--text);font-family:Manrope,system-ui,sans-serif;min-height:100vh}
+    button{font:inherit;color:inherit;cursor:pointer}.app{display:grid;grid-template-columns:245px 1fr;min-height:100vh}
+    aside{border-right:1px solid var(--line);padding:28px 18px;display:flex;flex-direction:column;background:rgba(8,11,18,.72)}
+    .brand{display:flex;align-items:center;gap:12px;padding:0 12px 36px}.brand-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:grid;place-items:center;color:#071018;font-weight:900;font-size:18px;box-shadow:0 0 28px #65e7f244}.brand-name{font-weight:800;letter-spacing:.18em;font-size:15px}.brand-sub{font:10px 'DM Mono';color:var(--muted);letter-spacing:.16em;margin-top:3px}
+    .nav-label{font:10px 'DM Mono';letter-spacing:.16em;color:#65718a;padding:0 13px 12px}.nav{display:grid;gap:6px}.nav button{border:1px solid transparent;background:transparent;text-align:left;padding:12px 13px;border-radius:11px;color:var(--muted);display:flex;align-items:center;gap:12px;font-size:13px;transition:.2s}.nav button:hover{background:#ffffff08;color:var(--text)}.nav button.active{color:var(--cyan);background:linear-gradient(90deg,#65e7f218,transparent);border-color:#65e7f222}.nav .ico{width:18px;text-align:center;font-size:16px}
+    .side-bottom{margin-top:auto}.status{border:1px solid var(--line);background:linear-gradient(145deg,#141c2a,#0e131e);border-radius:14px;padding:15px}.status-top{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted)}.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);display:inline-block;margin-right:6px}.status strong{display:block;font-size:13px;margin-top:12px}.status small{color:var(--muted);font-size:11px}
+    main{padding:30px clamp(20px,4vw,54px) 46px;max-width:1600px;width:100%;margin:auto}.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:34px;gap:16px}.eyebrow{font:10px 'DM Mono';color:var(--cyan);letter-spacing:.18em;text-transform:uppercase}.topbar h1{font-size:clamp(25px,3vw,34px);margin:8px 0 0;letter-spacing:-.045em}.top-actions{display:flex;align-items:center;gap:12px}.date{font:11px 'DM Mono';color:var(--muted);padding:10px 13px;border:1px solid var(--line);border-radius:10px}.avatar{height:38px;width:38px;border-radius:12px;background:linear-gradient(135deg,#253b53,#7459a8);display:grid;place-items:center;font-weight:800;border:1px solid #ffffff20}
+    .welcome{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 26px;border:1px solid #65e7f226;border-radius:18px;background:linear-gradient(105deg,#142331 0%,#17172a 62%,#1c1930 100%);position:relative;overflow:hidden;margin-bottom:22px}.welcome:after{content:"67";position:absolute;right:8%;top:-44px;font-size:170px;font-weight:800;letter-spacing:-.1em;color:#ffffff08;pointer-events:none}.welcome h2{font-size:20px;margin:7px 0}.welcome p{margin:0;color:#aab5ca;font-size:12px}.welcome .mini{font:10px 'DM Mono';color:var(--cyan);letter-spacing:.14em}.primary{position:relative;z-index:1;background:var(--cyan);color:#071218;border:0;border-radius:10px;padding:11px 15px;font-weight:800;font-size:12px;white-space:nowrap;box-shadow:0 5px 25px #65e7f222}.primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{border:1px solid var(--line);background:linear-gradient(145deg,rgba(19,26,41,.96),rgba(13,18,29,.96));border-radius:16px;padding:18px;min-width:0;box-shadow:0 10px 30px #0002}.metric-head{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:11px}.metric-icon{height:30px;width:30px;border-radius:9px;display:grid;place-items:center;background:#65e7f214;color:var(--cyan);font-size:15px}.metric-value{font-size:29px;font-weight:800;letter-spacing:-.06em;margin:15px 0 5px}.metric-foot{font-size:10px;color:var(--muted)}.up{color:var(--green)}.down{color:var(--orange)}
+    .content-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(270px,1fr);gap:14px;margin-top:14px}.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.section-head h3{font-size:14px;margin:0}.section-head span{font:10px 'DM Mono';color:var(--muted)}.chart-card{padding:20px 20px 14px}.chart-legend{display:flex;gap:16px;font-size:10px;color:var(--muted)}.legend-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}.chart-wrap{height:210px;position:relative}.chart-wrap svg{width:100%;height:100%;overflow:visible}.chart-labels{display:flex;justify-content:space-between;color:#66738b;font:9px 'DM Mono';padding:0 5px;margin-top:5px}
+    .activity{display:grid;gap:17px}.activity-item{display:flex;gap:11px;align-items:flex-start}.activity-icon{width:30px;height:30px;flex:0 0 30px;border-radius:9px;background:#a78bfa18;color:var(--violet);display:grid;place-items:center;font-size:13px}.activity-item strong{display:block;font-size:11px;font-weight:700}.activity-item small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.activity-time{margin-left:auto;color:#6f7b91;font:9px 'DM Mono';white-space:nowrap}
+    .bottom-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;margin-top:14px}.task{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:11px}.task:last-child{border:0}.task input{accent-color:var(--cyan);width:14px;height:14px}.task.done span{text-decoration:line-through;color:#66738b}.progress-line{height:5px;background:#252e40;border-radius:10px;overflow:hidden;margin-top:15px}.progress-line i{display:block;height:100%;width:68%;background:linear-gradient(90deg,var(--cyan),var(--violet));border-radius:10px}.progress-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin-top:8px}
+    .quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.quick{border:1px solid var(--line);background:#ffffff04;border-radius:11px;padding:14px;text-align:left;transition:.2s}.quick:hover{border-color:#65e7f255;background:#65e7f20b}.quick b{display:block;font-size:11px;margin-top:9px}.quick small{font-size:9px;color:var(--muted)}.quick em{font-style:normal;color:var(--cyan);font-size:17px}
+    footer{display:flex;justify-content:space-between;gap:12px;color:#56627a;font:9px 'DM Mono';margin-top:25px;letter-spacing:.08em}
+    .toast{position:fixed;bottom:22px;right:22px;padding:12px 16px;border:1px solid #65e7f255;background:#111d2a;border-radius:12px;color:var(--text);font-size:12px;box-shadow:0 12px 35px #0008;opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translateY(0)}
+    @media(max-width:1000px){.app{grid-template-columns:200px 1fr}.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:720px){.app{display:block}aside{padding:13px 16px;border-right:0;border-bottom:1px solid var(--line);display:block}.brand{padding:0 4px 12px}.nav-label,.side-bottom{display:none}.nav{display:flex;overflow-x:auto;padding-bottom:2px}.nav button{white-space:nowrap;padding:9px 11px;font-size:11px}.nav .ico{display:none}main{padding:23px 16px 32px}.topbar{margin-bottom:22px}.date{display:none}.welcome{padding:20px;align-items:flex-start;flex-direction:column}.welcome:after{right:4%;font-size:120px}.content-grid,.bottom-grid{grid-template-columns:1fr}.grid{gap:10px}.card{padding:15px}.metric-value{font-size:25px}.chart-wrap{height:180px}footer{flex-direction:column}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand"><div class="brand-mark">67</div><div><div class="brand-name">SIXTYSEVEN</div><div class="brand-sub">CONTROL CENTER</div></div></div>
+    <div class="nav-label">WORKSPACE</div>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <button class="active" data-page="Overview"><span class="ico">◈</span> Overview</button>
+      <button data-page="Analytics"><span class="ico">▥</span> Analytics</button>
+      <button data-page="Projects"><span class="ico">▦</span> Projects</button>
+      <button data-page="Activity"><span class="ico">◷</span> Activity</button>
+    </nav>
+    <div class="side-bottom"><div class="status"><div class="status-top"><span>SYSTEM STATUS</span><span><i class="live-dot"></i>ONLINE</span></div><strong>All systems operational</strong><small>Last checked just now</small></div></div>
+  </aside>
+  <main>
+    <header class="topbar">
+      <div><div class="eyebrow">SATURDAY / SYSTEM ONLINE</div><h1 id="page-title">Overview<span style="color:var(--cyan)">.</span></h1></div>
+      <div class="top-actions"><div class="date" id="date">31 OCT 2026</div><div class="avatar">67</div></div>
+    </header>
+    <section class="welcome">
+      <div><div class="mini">WELCOME BACK, OPERATOR</div><h2>Your space. Your data. Your 67.</h2><p>Everything you need, organized in one futuristic workspace.</p></div>
+      <button class="primary" id="report-btn">＋ &nbsp; Create report</button>
+    </section>
+    <section class="grid" aria-label="Kennzahlen">
+      <article class="card"><div class="metric-head">Total visitors <span class="metric-icon">↗</span></div><div class="metric-value">24,891</div><div class="metric-foot"><span class="up">↗ 12.8%</span> &nbsp; vs. last month</div></article>
+      <article class="card"><div class="metric-head">Active projects <span class="metric-icon">▦</span></div><div class="metric-value">08</div><div class="metric-foot"><span class="up">＋ 2 new</span> &nbsp; this month</div></article>
+      <article class="card"><div class="metric-head">System uptime <span class="metric-icon">⌁</span></div><div class="metric-value">99.9<span style="font-size:16px">%</span></div><div class="metric-foot"><span class="up">● Stable</span> &nbsp; all services</div></article>
+      <article class="card"><div class="metric-head">Tasks completed <span class="metric-icon">✓</span></div><div class="metric-value">156</div><div class="metric-foot"><span class="up">↗ 8.4%</span> &nbsp; this week</div></article>
+    </section>
+    <section class="content-grid">
+      <article class="card chart-card">
+        <div class="section-head"><h3>Performance overview</h3><div class="chart-legend"><span><i class="legend-dot" style="background:var(--cyan)"></i>Visitors</span><span><i class="legend-dot" style="background:var(--violet)"></i>Engagement</span></div></div>
+        <div class="chart-wrap">
+          <svg viewBox="0 0 680 210" preserveAspectRatio="none" role="img" aria-label="Beispielhafter Performance-Verlauf">
+            <defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#65e7f2" stop-opacity=".22"/><stop offset="1" stop-color="#65e7f2" stop-opacity="0"/></linearGradient></defs>
+            <g stroke="#ffffff" stroke-opacity=".07" stroke-dasharray="4 6"><path d="M0 25H680M0 70H680M0 115H680M0 160H680M0 200H680"/></g>
+            <path d="M0 164 C40 150 50 160 88 132 S145 145 180 110 S235 122 270 96 S330 115 365 76 S420 93 455 66 S520 91 550 48 S625 65 680 24 L680 205 L0 205Z" fill="url(#area)"/>
+            <path d="M0 164 C40 150 50 160 88 132 S145 145 180 110 S235 122 270 96 S330 115 365 76 S420 93 455 66 S520 91 550 48 S625 65 680 24" fill="none" stroke="#65e7f2" stroke-width="3" stroke-linecap="round"/>
+            <path d="M0 180 C50 170 65 184 105 160 S165 172 205 145 S270 160 310 130 S370 145 410 120 S480 136 520 108 S610 122 680 86" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 5"/>
+            <circle cx="550" cy="48" r="5" fill="#65e7f2" stroke="#101521" stroke-width="3"/>
+          </svg>
+        </div><div class="chart-labels"><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span></div>
+      </article>
+      <article class="card">
+        <div class="section-head"><h3>Recent activity</h3><span>LIVE FEED</span></div>
+        <div class="activity">
+          <div class="activity-item"><div class="activity-icon">✦</div><div><strong>New project created</strong><small>Project Alpha was added</small></div><span class="activity-time">2m</span></div>
+          <div class="activity-item"><div class="activity-icon">↗</div><div><strong>Traffic increased</strong><small>Visitors are up by 12.8%</small></div><span class="activity-time">18m</span></div>
+          <div class="activity-item"><div class="activity-icon">✓</div><div><strong>Task completed</strong><small>Interface update finished</small></div><span class="activity-time">1h</span></div>
+          <div class="activity-item"><div class="activity-icon">⌁</div><div><strong>System check passed</strong><small>All services operational</small></div><span class="activity-time">3h</span></div>
+        </div>
+      </article>
+    </section>
+    <section class="bottom-grid">
+      <article class="card">
+        <div class="section-head"><h3>Today's focus</h3><span>2 / 3 DONE</span></div>
+        <label class="task done"><input type="checkbox" checked><span>Review dashboard layout</span></label>
+        <label class="task done"><input type="checkbox" checked><span>Update project documentation</span></label>
+        <label class="task"><input type="checkbox"><span>Prepare weekly performance report</span></label>
+        <div class="progress-line"><i id="progress"></i></div><div class="progress-meta"><span>Daily progress</span><strong id="progress-text">68%</strong></div>
+      </article>
+      <article class="card">
+        <div class="section-head"><h3>Quick actions</h3><span>SHORTCUTS</span></div>
+        <div class="quick-grid">
+          <button class="quick" data-toast="New project workspace ready."><em>＋</em><b>New project</b><small>Start something new</small></button>
+          <button class="quick" data-toast="Your analytics overview is up to date."><em>⌁</em><b>View analytics</b><small>Explore your numbers</small></button>
+          <button class="quick" data-toast="Settings panel coming soon."><em>⚙</em><b>Settings</b><small>Customize your space</small></button>
+          <button class="quick" data-toast="Help center is coming soon."><em>?</em><b>Get help</b><small>Tips and support</small></button>
+        </div>
+      </article>
+    </section>
+    <footer><span>67 / CONTROL CENTER</span><span>DESIGNED FOR WHAT'S NEXT · v1.0</span></footer>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  function notify(message){toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2600)}
+  document.querySelectorAll('.nav button').forEach(button=>button.addEventListener('click',()=>{
+    document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+    button.classList.add('active');
+    document.getElementById('page-title').innerHTML=button.dataset.page+'<span style="color:var(--cyan)">.</span>';
+    if(button.dataset.page!=='Overview') notify(button.dataset.page+' view selected — demo dashboard');
+  }));
+  document.querySelectorAll('.quick').forEach(button=>button.addEventListener('click',()=>notify(button.dataset.toast)));
+  document.getElementById('report-btn').addEventListener('click',()=>notify('Your report is being prepared — demo action.'));
+  const tasks=[...document.querySelectorAll('.task input')];
+  function updateProgress(){const done=tasks.filter(t=>t.checked).length;const pct=Math.round(done/tasks.length*100);document.getElementById('progress').style.width=pct+'%';document.getElementById('progress-text').textContent=pct+'%';}
+  tasks.forEach(t=>t.addEventListener('change',()=>{t.closest('.task').classList.toggle('done',t.checked);updateProgress()}));
+  const now=new Date();
+  document.getElementById('date').textContent=new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric'}).format(now).toUpperCase();
+</script>
+</body>
+</html>
